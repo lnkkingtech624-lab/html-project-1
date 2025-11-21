@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fixed Header with Logo and Search</title>
+  <style>
+    /* Reset default styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f2f5;
+    }
+
+    /* Fixed header styling */
+    header {
+      position: fixed;
+      top: 10px; /* slight gap from top for curved effect */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1200px;
+      background: #1e1e2f;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 20px; /* curved edges */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    /* Logo */
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #00ffff; /* neon cyan color */
+    }
+
+    /* Search bar */
+    .search-bar input[type="text"] {
+      padding: 8px 12px;
+      border-radius: 15px;
+      border: none;
+      outline: none;
+      width: 200px;
+      transition: width 0.3s;
+    }
+
+    .search-bar input[type="text"]:focus {
+      width: 250px;
+    }
+
+    /* Content below header */
+    .content {
+      margin-top: 100px; /* space for fixed header */
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">LNK-KING-TECH</div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+    </div>
+  </header>
+
+  <div class="content">
+    
+  </div>
+</body>
+
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LNK-KING-TECH Live Background</title>
+<style>
+  /* Reset */
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+  body, html { height: 100%; overflow-x: hidden; }
+
+  /* Fullscreen live background */
+  body {
+    position: relative;
+    background: #0f0f1a;
+  }
+
+  /* Animated gradient overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(270deg, #0ff, #ff0, #f0f, #0ff);
+    background-size: 800% 800%;
+    animation: gradientBG 20s ease infinite;
+    z-index: -2;
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Particle canvas */
+  #particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+  }
+
+  /* Fixed header styling */
+  header {
+    position: fixed;
+    top: 10px; left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    background: rgba(30, 30, 47, 0.85);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    backdrop-filter: blur(8px); /* nice glass effect */
+  }
+
+  .logo { font-size: 22px; font-weight: bold; color: #00ffff; }
+  .search-bar input {
+    padding: 8px 12px;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    width: 200px;
+    transition: width 0.3s;
+  }
+  .search-bar input:focus { width: 250px; }
+
+  /* Content spacing */
+  .content { margin-top: 100px; padding: 20px; color: white; }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<header>
+  <div class="logo">LNK-KING-TECH</div>
+  <div class="search-bar">
+    <input type="text" placeholder="Search...">
+  </div>
+</header>
+
+
+
+<script>
+  // Simple particle animation
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let particlesArray;
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init();
+  });
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = Math.random() * 0.1 - 0.2;
+      this.speedY = Math.random() * 0.1 - 0.2;
+      this.color = 'rgba(0,255,255,0.7)';
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if(this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
+      if(this.y < 0 || this.y > canvas.height) this.speedY = -this.speedY;
+    }
+    draw() {
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function init() {
+    particlesArray = [];
+    const numberOfParticles = 100;
+    for(let i = 0; i < numberOfParticles; i++){
+      particlesArray.push(new Particle());
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particlesArray.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+
+  
+  init();
+  animate();
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog Posts</title>
+<style>
+  /* Body and Background */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: #fff;
+  }
+
+  
+
+  /* Blog container */
+  .blog-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 80px; /* EXACT 80px space from header */
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Blog posts */
+  .blog-post {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 25px;
+    width: 300px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .blog-post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  .blog-post h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+  }
+
+  .blog-post p {
+    font-size: 1em;
+    line-height: 1.5;
+  }
+
+  .blog-post img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 15px;
+  }
+</style>
+</head>
+
+
+<div class="blog-container">
+  <div class="blog-post">
+    <img src="https://via.placeholder.com/300x150" alt="Blog Image">
+    <h2>Blog Post 1</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </div>
+
+  <div class="blog-post">
+    <img src="https://via.placeholder.com/300x150" alt="Blog Image">
+    <h2>Blog Post 2</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </div>
+
+  <div class="blog-post">
+    <img src="https://via.placeholder.com/300x150" alt="Blog Image">
+    <h2>Blog Post 3</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </div>
+</div>
+
+</body>
+</html>
+
+<style>
+  .post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; margin: auto; }
+  .post-card { background: rgba(255,255,255,0.85); border-radius: 15px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .post-card h3 { margin-top: 0; font-family: Arial, sans-serif; }
+  .post-card iframe { width: 100%; border-radius: 10px; }
+  .post-card p { font-family: Arial, sans-serif; line-height: 1.5; }
+  @media (max-width: 768px) { .post-grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="post-grid">
+
+  <div class="post-card">
+    <h3>Vybz Kartel – Fever</h3>
+    <iframe height="250"
+      src="https://www.youtube.com/embed/Yw-8dD_6MmY"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+    <p>A classic dancehall hit.</p>
+  </div>
+
+  <div class="post-card">
+    <h3>Alkaline – Ocean Wave</h3>
+    <iframe height="250"
+      src="https://www.youtube.com/embed/FHgWpXm8Y-8"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+    <p>Alkaline’s smooth track with a sea vibe.</p>
+  </div>
+
+  <div class="post-card">
+    <h3>Konshens – Bruk Off Yuh Back</h3>
+    <iframe height="250"
+      src="https://www.youtube.com/embed/QOpzGw4K9AA"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+    <p>A very danceable Konshens track.</p>
+  </div>
+
+</div>
+
+<style>
+  .post-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
+    max-width: 1200px; 
+    margin: auto; 
+  }
+  .post-card { 
+    background: rgba(255,255,255,0.85); 
+    border-radius: 15px; 
+    padding: 15px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+  }
+  .post-card h3 { margin-top: 0; font-family: Arial, sans-serif; }
+  .post-card .player { width: 100%; height: 250px; border-radius: 10px; }
+  .post-card p { font-family: Arial, sans-serif; line-height: 1.5; }
+  @media (max-width: 768px) { .post-grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="post-grid">
+  <div class="post-card">
+    <h3>Popcaan – Kick It Wid Myself</h3>
+    <div id="player1" class="player"></div>
+    <p>Popcaan & Chronic Law track. Based on RiddimsWorld’s 2025 list. :contentReference[oaicite:0]{index=0}</p>
+  </div>
+
+  <div class="post-card">
+    <h3>Masicka – Whites</h3>
+    <div id="player2" class="player"></div>
+    <p>Masicka’s hit “Whites”, mentioned in YouTube stats for 2025. :contentReference[oaicite:1]{index=1}</p>
+  </div>
+
+  <div class="post-card">
+    <h3>Moliy & Silent Addy – Shake It To The Max (FLY)</h3>
+    <div id="player3" class="player"></div>
+    <p>A remix featuring Skillibeng & Shenseea is very popular. :contentReference[oaicite:2]{index=2}</p>
+  </div>
+
+  <div class="post-card">
+    <h3>MOLIY, Shenseea, Skillibeng – Shake It To The Max (Fly) Remix</h3>
+    <div id="player4" class="player"></div>
+    <p>Official remix music video. :contentReference[oaicite:3]{index=3}</p>
+  </div>
+
+  <!-- You can duplicate for more songs if you find more embed IDs -->
+
+  <div class="post-card">
+    <h3>Masicka – Whites (Remix ft. French Montana)</h3>
+    <div id="player5" class="player"></div>
+    <p>Remix version with French Montana. :contentReference[oaicite:4]{index=4}</p>
+  </div>
+
+  <div class="post-card">
+    <h3>Popcaan & Chronic Law – Kick It Wid Myself (Visualizer)</h3>
+    <div id="player6" class="player"></div>
+    <p>Visualizer video version. :contentReference[oaicite:5]{index=5}</p>
+  </div>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  var players = [];
+
+  function onYouTubeIframeAPIReady() {
+    var videos = [
+      { id: 'player1', videoId: 'H0dICMkING8' },     // Kick It Wid Myself
+      { id: 'player2', videoId: '2C0mGEfQnt4' },     // Whites
+      { id: 'player3', videoId: '2t_sZsxayP0' },     // Shake It To The Max (FLY) original
+      { id: 'player4', videoId: 'UjBhbMMgLzc' },     // Shake It To The Max (FLY) Remix
+      { id: 'player5', videoId: 'VPaqYF1UAH0' },     // Whites ft French Montana
+      { id: 'player6', videoId: 'EaIQn-TS53I' }      // Kick It Wid Myself Visualizer
+    ];
+
+    videos.forEach(function(v) {
+      players.push(new YT.Player(v.id, {
+        height: '250',
+        width: '100%',
+        videoId: v.videoId,
+        playerVars: {
+          rel: 0,
+          modestbranding: 1,
+          controls: 1
+        },
+        events: {
+          onStateChange: onPlayerStateChange
+        }
+      }));
+    });
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.PLAYING) {
+      players.forEach(function(p) {
+        if (p !== event.target) {
+          p.pauseVideo();
+        }
+      });
+    }
+  }
+</script>
